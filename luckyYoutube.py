@@ -1,13 +1,29 @@
 #! python3
 # luckyYoutube.py - opens several youtube videos from search result.
 
-import webbrowser, sys	#python standard libraries
-import requests			#library for getting response from webpages
-import bs4				#library for manipulating html 
+print("Lucky Youtube")
 
-print("Searching Youtube...")
-res = requests.get('https://www.youtube.com/results?search_query=' + '+'.join(sys.argv[1:]))		#get response from the youtube search results page.
-res.raise_for_status()								#check if the response has been downloaded from the internet
+import sys						#python standard library
+
+try:
+	if len(sys.argv) > 1:
+		print("Searching Youtube...")
+		import requests										#library for getting response from webpages
+		res = requests.get('https://www.youtube.com/results?search_query=' + '+'.join(sys.argv[1:]))		#get response from the youtube search results page.
+		res.raise_for_status()								#check if the response has been downloaded from the internet
+	else:
+		s = input('Enter search text: ')
+		sl = s.split(' ')
+		print("Searching Youtube...")
+		import requests										#library for getting response from webpages
+		res = requests.get('https://www.youtube.com/results?search_query=' + '+'.join(sl))		#get response from the youtube search results page.
+		res.raise_for_status()								#check if the response has been downloaded from the internet
+except:
+	print()
+	print("Network Error! Quiting...")	
+
+import webbrowser									#python standard libraries to open default web browser
+import bs4											#library for manipulating html 
 
 soup = bs4.BeautifulSoup(res.text, 'html5lib')		#make soup to parse the response using html5
 
