@@ -4,22 +4,27 @@
 print("Lucky Youtube")
 
 import sys						#python standard library
+import requests
+
+def search_youtube(search_term):
+	print("Searching Youtube...")
+	import requests										#library for getting response from webpages
+	res = requests.get('https://www.youtube.com/results?search_query=' + '+'.join(search_term)		#get response from the youtube search results page.
+	
+	return res
+
 
 try:
 	if len(sys.argv) > 1:
-		print("Searching Youtube...")
-		import requests										#library for getting response from webpages
-		res = requests.get('https://www.youtube.com/results?search_query=' + '+'.join(sys.argv[1:]))		#get response from the youtube search results page.
+		res = search_youtube(sys.argv[1:])					#get response from the youtube search results page.
 		res.raise_for_status()								#check if the response has been downloaded from the internet
 	else:
 		s = input('Enter search text: ')
 		sl = s.split(' ')
-		print("Searching Youtube...")
-		import requests										#library for getting response from webpages
-		res = requests.get('https://www.youtube.com/results?search_query=' + '+'.join(sl))		#get response from the youtube search results page.
+
+		res = search_youtube(sl)							#get response from the youtube search results page.
 		res.raise_for_status()								#check if the response has been downloaded from the internet
 except:
-	print()
 	print("Network Error! Quiting...")	
 
 import webbrowser									#python standard libraries to open default web browser
@@ -34,6 +39,3 @@ numOpen = min(5, len(linkElems))					#number of videos to open automatically (ma
 for i in range(numOpen):								#runs 'numOpen' times to open numOpen videos (max 5 videos)
 	hr = linkElems[i].get('href')						#extract relative link of video
 	webbrowser.open('https://www.youtube.com' + hr)		#combines the extracted relative link to "youtube.com" and opens the link of the video in the browser.
-
-
-# The End
